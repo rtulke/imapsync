@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# aptitude install perl libmail-imapclient-perl libterm-readkey-perl libio-socket-ssl-perl libdigest-hmac-perl liburi-perl libfile-copy-recursive-perl libio-tee-perl libunicode-string-perllib readonly-perl
+
+csvscript="/pathto/imapsync/mysql2csv.py"       # any script that print out "user@mail.com;passwd"
+imapsync="/pathto/imapsync/imapsyncdl/imapsync" # path imapsync script
+
+host1="from.mail.server"  # from server
+host2="to.mail.server"    # to server
+
+help() {
+
+        echo "usage:"
+        echo
+        echo "          $0 <domain|email>"
+        echo
+        echo "example:"
+        echo "          $0 \"test.com|mydomain.com|anotherdomain.com\""
+        echo "          $0 test.com"
+        echo "          $0 \"name@test.com|another@mydomain.com\""
+        echo "          $0 spam@anotherdomain.com"
+
+}
+
+if [ -z $1 ]; then
+        help
+        exit 2
+fi
+
+domain=$1
+
+for i in $(python ${csvscript} |egrep "${domain}"); do
+        user=$(echo $i | awk -F';' '{print $1}')
+        pass=$(echo $i | awk -F';' '{print $2}')
+ 
+        $imapsync --no-modulesversion --delete2duplicates --addheader WITHOUT-HEADER --host1 $host1 --user1 $user --password1 $pass --host2 $host2 --user2 $user --password2 $pass
+done
