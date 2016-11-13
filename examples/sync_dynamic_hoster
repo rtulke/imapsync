@@ -2,7 +2,7 @@
 
 # aptitude install perl libmail-imapclient-perl libterm-readkey-perl libio-socket-ssl-perl libdigest-hmac-perl liburi-perl libfile-copy-recursive-perl libio-tee-perl libunicode-string-perllib readonly-perl
 
-csvscript="/pathto/imapsync/mysql2csv.py"       # any script that print out "user@mail.com;passwd"
+csvscript="/pathto/imapsync/mysql2csv.py"       # any python script that print out "user@mail.com;passwd"
 imapsync="/pathto/imapsync/imapsyncdl/imapsync" # path imapsync script
 
 host1="from.mail.server"  # from server
